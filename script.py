@@ -1,5 +1,5 @@
 from pathlib import Path
-import requests
+import urllib.request
 import json
 import datetime
 import time
@@ -28,6 +28,17 @@ for flight in data:
 def gate_generator(size=4, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
+# Function for making post request
+def post_gate_change(url, params):
+    params = json.dumps(params).encode("utf8")
+    req = urllib.request.Request(url=url, data=params, method = "POST")
+
+    # Add the appropriate header.
+    req.add_header("Content-type", "application/json; charset=UTF-8")
+    response = urllib.request.urlopen(req)
+    response = json.loads(response.read().decode('utf8'))
+    return response
+    
 # perform gate change 
 for x in range(0, limit):
     depGate = gate_generator()
@@ -46,8 +57,7 @@ for x in range(0, limit):
                     "stdUTC": f"{stdUTC}",
                     "depGate": f"{depGate}"}
         # print(jsonBody)
-        r = requests.post(url, json=jsonBody)
-        response = r.json()
+        response = post_gate_change(url, jsonBody)
         responseError = response.get("error")
         if responseError != None:
             print(responseError)
