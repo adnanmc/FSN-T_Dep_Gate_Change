@@ -7,6 +7,7 @@ import string
 import random
 import csv
 
+
 # read config file
 configFilePath = Path("./config.json")
 with open(configFilePath) as json_file:
@@ -15,6 +16,15 @@ with open(configFilePath) as json_file:
     stg = data.get("MVT")
     limit = data.get("how_many_gate_change_per_flight")
     limit = int(limit)
+
+# print time
+timeNow = datetime.datetime.now().strftime('%b-%d-%Y | %I:%M %p')
+estMinute = int(limit)
+estimatedFinishTime = (datetime.datetime.now() + datetime.timedelta(minutes=estMinute)).strftime('%b-%d-%Y | %I:%M %p')
+print('==================================================')
+print(f'Started @ {timeNow}')
+print(f'Estimated finish time: {estimatedFinishTime}')
+print('==================================================')
 
 # read test data   
 csvPath = Path("./data.csv")
@@ -42,7 +52,9 @@ def post_gate_change(url, params):
 # perform gate change 
 for x in range(0, limit):
     depGate = gate_generator()
-    print(depGate)
+    print('----------------------------------------------')
+    print(f"Current Departure Gate:  {depGate}")
+    print(f"Gate change per flight done so far: {x + 1}")
     for flight in testData:
         flightNum = flight.get("flightNum")
         utcOriginDate = flight.get("utc_dep_date")
