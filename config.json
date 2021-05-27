@@ -1,5 +1,5 @@
 {
-    "MVT":"stg2",
-    "post_dep_gate_url":"http://lsc64dgen08qdnx.jetblue.com/api/manual/gtd",
-    "how_many_gate_change_per_flight": "10"
+  "MVT": "stg2",
+  "post_dep_gate_url": "http://lsc64dgen08qdnx.jetblue.com/api/v1/events",
+  "how_many_gate_change_per_flight": "10"
 }
